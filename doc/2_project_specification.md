@@ -1,1 +1,11 @@
+# 專案規格說明
 
+## 功能說明
+- 根據系統時間，自動顯示當天的課表
+- 顯示課程時間、名稱、地點等資訊
+- 使用者可透過簡單 Web UI 編輯課表
+
+## 系統架構
+- 裝置：Raspberry Pi Zero 2 W
+- 程式語言：Python 3（搭配 Flask 或 Tkinter）
+- 課表來源：本地 CSV 檔、Google Sheet 或 API
