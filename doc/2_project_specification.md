@@ -8,5 +8,5 @@
 
 ## 系統架構
 - 裝置：Raspberry Pi Zero 2 W
-- 程式語言：Python 3（搭配 Flask 或 Tkinter）
+- 程式語言：Python 3（搭配 Flask）
 - 課表來源: CSV
