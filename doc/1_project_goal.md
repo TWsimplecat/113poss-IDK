@@ -5,7 +5,7 @@
 製作出一個能夠讓使用者輸入課表時間 與課堂細節
 
 ## 目前更新目標
--待更新
+-Debuging highlight current class
 
 ## 已完成更新
 -匯入課表
