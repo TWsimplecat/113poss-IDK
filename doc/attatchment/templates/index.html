@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>課表系統</title>
+    <style>
+        body { font-family: sans-serif; }
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+            box-shadow: 0 0 5px #999;
+        }
+    </style>
+</head>
+<body>
+    <h1>我的課表</h1>
+
+    <p id="current-time" style="font-size: 1.2em; font-weight: bold; color: #333;">
+        現在時間：載入中...
+    </p>
+
+    <h2>📁 上傳課表 CSV</h2>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="csv_file" accept=".csv" required>
+        <button type="submit">上傳 CSV</button>
+    </form>
+
+    <hr>
+
+    <h2>新增課程</h2>
+    <form method="POST" action="/">
+        <label>星期：</label><input type="text" name="day" required>
+        <label>時間：</label><input type="text" name="time" required placeholder="例如 08:00-10:00">
+        <label>科目：</label><input type="text" name="subject" required>
+        <label>地點：</label><input type="text" name="location">
+        <label>老師：</label><input type="text" name="teacher">
+        <button type="submit">新增</button>
+    </form>
+
+    <hr>
+
+    <h2>🗓️ 一週課表</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>時間</th>
+            {% for day in days %}
+                <th>星期{{ day }}</th>
+            {% endfor %}
+        </tr>
+        {% for time in times %}
+        <tr>
+            <td>{{ time }}</td>
+            {% for day in days %}
+            <td data-day="{{ day }}" data-time="{{ schedule[time][day].time if schedule[time][day] else '' }}">
+                {% if schedule[time][day] %}
+                    <strong>{{ schedule[time][day].subject }}</strong><br>
+                    {{ schedule[time][day].teacher }} @ {{ schedule[time][day].location }}<br>
+                    {% if schedule[time][day].note %}
+                        <em>📌 {{ schedule[time][day].note }}</em><br>
+                    {% endif %}
+                    <form method="POST" action="/delete/{{ schedule[time][day].id }}" style="margin-top:4px;">
+                        <button type="submit">刪除</button>
+                    </form>
+                    <form method="POST" action="/note/{{ schedule[time][day].id }}">
+                        <input type="text" name="note" placeholder="新增或修改備註" style="width: 90%;" required>
+                        <button type="submit">📝 備註</button>
+                    </form>
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        function timeToMinutes(t) {
+            const [h, m] = t.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const days = ['日','一','二','三','四','五','六'];
+            const day = days[now.getDay()];
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const timeString = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+            document.getElementById('current-time').textContent = `現在時間：星期${day} ${timeString}`;
+
+            const currentMinutes = hours * 60 + minutes;
+
+            const cells = document.querySelectorAll('td[data-day][data-time]');
+            cells.forEach(cell => {
+                const cellDay = cell.getAttribute('data-day');
+                const cellTime = cell.getAttribute('data-time');
+                if (!cellTime) return;
+
+                const timeRanges = cellTime.split(',');
+
+                let highlight = false;
+                for (const range of timeRanges) {
+                    const [start, end] = range.trim().split('-');
+                    if (!start || !end) continue;
+
+                    const startMinutes = timeToMinutes(start);
+                    const endMinutes = timeToMinutes(end);
+
+                    if (cellDay === day && currentMinutes >= startMinutes && currentMinutes <= endMinutes) {
+                        highlight = true;
+                        break;
+                    }
+                }
+
+                if (highlight) {
+                    cell.classList.add('highlight');
+                } else {
+                    cell.classList.remove('highlight');
+                }
+            });
+        }
+
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+    </script>
+</body>
+</html>
