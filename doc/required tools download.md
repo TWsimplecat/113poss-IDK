@@ -6,4 +6,4 @@
 | `ntplib`     | 用來同步網路時間（例如獲取當前時間）| `pip install ntplib`              |
 | `werkzeug`   | Flask 依賴的 WSGI 工具庫         | `pip install werkzeug`            |
 |`venv`        | 安裝虛擬環境                    |`sudo apt install python3-venv`|
-|              |創建並啟動虛擬環境|`python3 -m venv venv */source venv/bin/activate`|
+|              |創建並啟動虛擬環境|`python3 -m venv venv  `|`source venv/bin/activate`|
