@@ -9,12 +9,20 @@
 ## Download from .zip
 [offline-timetable.zip](https://github.com/user-attachments/files/20649531/offline-timetable.zip)
 
+### 在Pi 中 解壓縮 (假設在/root中)
+```bash
+cd /root
+unzip offline-timetable.zip
+```
+
 ### 在pi 中輸入以下 code :
 ```bash
 cd offline-timetable
 python3 generate_schedule.py
 python3 -m http.server 8000
 ```
+
+可透過 ls 檢查檔案是否解壓縮成功
 
 ## File Setup
 
