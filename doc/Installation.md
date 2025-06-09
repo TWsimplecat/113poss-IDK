@@ -6,8 +6,14 @@
 - Python 3（預設已安裝於 Raspberry Pi OS）
 
 
-## Dowload from .zip
+## Download from .zip
 [offline-timetable.zip](https://github.com/user-attachments/files/20649531/offline-timetable.zip)
+在pi 中輸入以下 code :
+```bash
+cd offline-timetable
+python3 generate_schedule.py
+python3 -m http.server 8000
+```
 
 ## File Setup
 
