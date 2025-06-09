@@ -5,6 +5,10 @@
 - Raspberry Pi Zero 2 W
 - Python 3（預設已安裝於 Raspberry Pi OS）
 
+
+## Dowload from .zip
+[offline-timetable.zip](https://github.com/user-attachments/files/20649531/offline-timetable.zip)
+
 ## File Setup
 
 1. 透過 USB、SCP、WinSCP 等方式，將以下檔案複製到 Raspberry Pi 的某個資料夾中，例如 `/root/schedule_project`：
