@@ -8,7 +8,8 @@
 
 ## Download from .zip
 [offline-timetable.zip](https://github.com/user-attachments/files/20649531/offline-timetable.zip)
-在pi 中輸入以下 code :
+
+### 在pi 中輸入以下 code :
 ```bash
 cd offline-timetable
 python3 generate_schedule.py
