@@ -22,8 +22,8 @@ python3 generate_schedule.py
 python3 -m http.server 8000
 ```
 
-可透過 ls 檢查檔案是否解壓縮成功
-
+*可透過 ls 檢查檔案是否解壓縮成功
+*Default server is operation on 8000,So needs to open website with pi.ip:8000
 ## File Setup
 
 1. 透過 USB、SCP、WinSCP 等方式，將以下檔案複製到 Raspberry Pi 的某個資料夾中，例如 `/root/schedule_project`：
