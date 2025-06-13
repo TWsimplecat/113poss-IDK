@@ -1,11 +1,13 @@
-Installation Instructions
-Prerequisites
+# Installation Instructions
+
+## Prerequisites
+
 Raspberry Pi Zero 2 W
 Raspberry Pi OS (建議使用含桌面版)
 網路連線能力
 安裝好 Docker 與 Docker Compose
 
-Step 1: 安裝 Docker & Docker Compose
+### Step 1: 安裝 Docker & Docker Compose
 可透過以下指令在 Pi 上安裝：
 
 ```bash
@@ -13,13 +15,13 @@ sudo apt update
 sudo apt install -y docker.io docker-compose
 ```
 
-Step 2: 複製專案
+### Step 2: 複製專案
 你可以透過 USB、SCP 或 WinSCP 將 offline-timetable 專案整包資料夾複製進 Raspberry Pi，例如：
 
 ```bash
 /home/pi/offline-timetable
 ```
-Step 3: 啟動服務
+### Step 3: 啟動服務
 打開終端機，進入資料夾並執行：
 
 ```bash
@@ -31,7 +33,7 @@ docker-compose up -d
 MariaDB 資料庫
 PHP + Apache 網頁伺服器
 
-Step 4: 初始化資料庫（第一次安裝）
+### Step 4: 初始化資料庫（第一次安裝）
 用以下指令啟動 MariaDB 客戶端（進入資料庫）：
 
 ```bash
@@ -53,7 +55,7 @@ CREATE TABLE schedule (
 INSERT INTO schedule (course_name, day_of_week, start_time, end_time)
 VALUES ('Math', 'Monday', '09:00:00', '10:00:00');
 ```
-Step 5: 開啟網頁
+### Step 5: 開啟網頁
 瀏覽器中輸入：
 
 ```cpp
