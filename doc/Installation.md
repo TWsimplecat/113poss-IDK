@@ -1,61 +1,68 @@
-# Installation Instructions
+Installation Instructions
+Prerequisites
+Raspberry Pi Zero 2 W
+Raspberry Pi OS (建議使用含桌面版)
+網路連線能力
+安裝好 Docker 與 Docker Compose
 
-## Prerequisites
-
-- Raspberry Pi Zero 2 W
-- Python 3（預設已安裝於 Raspberry Pi OS）
-
-
-## Download from .zip
-[offline-timetable.zip](https://github.com/user-attachments/files/20649531/offline-timetable.zip)
-
-### 在Pi 中 解壓縮 (假設在/root中)
-```bash
-cd /root
-unzip offline-timetable.zip
-```
-
-### 在pi 中輸入以下 code :
-```bash
-cd offline-timetable
-python3 generate_schedule.py
-python3 -m http.server 8000
-```
-
-*可透過 ls 檢查檔案是否解壓縮成功
-*Default server is operation on 8000,So needs to open website with pi.ip:8000
-## File Setup
-
-1. 透過 USB、SCP、WinSCP 等方式，將以下檔案複製到 Raspberry Pi 的某個資料夾中，例如 `/root/schedule_project`：
-
-   - `course.csv`（課表資料）
-   - `generate_schedule.py`（產生網頁）
-   - `index.html`（執行後自動產生）
-   - `edit_schedule.sh`（一鍵修改用）
-   - （可選）`upload_form.html`, `upload_server.py`（不需使用）
-
-2. 進入資料夾：
+Step 1: 安裝 Docker & Docker Compose
+可透過以下指令在 Pi 上安裝：
 
 ```bash
-cd /root/schedule_project
+sudo apt update
+sudo apt install -y docker.io docker-compose
 ```
-3.產生網頁檔：
+
+Step 2: 複製專案
+你可以透過 USB、SCP 或 WinSCP 將 offline-timetable 專案整包資料夾複製進 Raspberry Pi，例如：
+
 ```bash
-python3 generate_schedule.py
+/home/pi/offline-timetable
 ```
-### To View the Schedule
-若要在區網內用瀏覽器開啟：
-python3 -m http.server 8000
-然後在瀏覽器中輸入：
-http://<你的 Pi IP>:8000
-(你可以使用以下指令查詢 IP：hostname -I)
+Step 3: 啟動服務
+打開終端機，進入資料夾並執行：
 
-### 更新課表
+```bash
+cd ~/offline-timetable
+docker-compose build
+docker-compose up -d
+```
+這會啟動：
+MariaDB 資料庫
+PHP + Apache 網頁伺服器
 
-你可以用以下指令編輯並自動更新課表：
-./edit_schedule.sh
-或手動更新：
-nano course.csv
-python3 generate_schedule.py
+Step 4: 初始化資料庫（第一次安裝）
+用以下指令啟動 MariaDB 客戶端（進入資料庫）：
 
-> 本系統不使用任何伺服器端或前端框架，所有內容皆可離線運作。
+```bash
+docker run -it --rm --network offline-timetable_default mysql:8 mysql -h test-mysql -u root -p
+輸入密碼：root，接著建立資料表：
+```
+```sql
+USE schedule_db;
+CREATE TABLE schedule (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    day_of_week VARCHAR(10) NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL
+);
+```
+插入一筆課程資料：
+```sql
+INSERT INTO schedule (course_name, day_of_week, start_time, end_time)
+VALUES ('Math', 'Monday', '09:00:00', '10:00:00');
+```
+Step 5: 開啟網頁
+瀏覽器中輸入：
+
+```cpp
+http://<你的Pi的IP>:8080
+```
+你可以看到主畫面，並使用按鈕進入：
+查看課表
+編輯課表（新增或刪除課程）
+
+備註
+本系統不使用任何伺服器端或前端框架，所有功能均基於 PHP + MariaDB + Docker。
+所有程式皆可離線運作，只需確保區網內可訪問 Raspberry Pi。
