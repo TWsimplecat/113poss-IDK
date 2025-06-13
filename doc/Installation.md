@@ -2,7 +2,7 @@
 
 
 ## Zipfile for Installation
-
+[📦 點此下載 offline-timetable.zip](https://github.com/TWsimplecat/113poss-IDK/raw/main/offline-timetable.zip)
 ## Prerequisites
 
 Raspberry Pi Zero 2 W
