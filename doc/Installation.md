@@ -38,8 +38,9 @@ PHP + Apache 網頁伺服器
 
 ```bash
 docker run -it --rm --network offline-timetable_default mysql:8 mysql -h test-mysql -u root -p
-輸入密碼：root，接著建立資料表：
 ```
+輸入密碼：root，接著建立資料表：
+
 ```sql
 USE schedule_db;
 CREATE TABLE schedule (
